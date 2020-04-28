@@ -26,7 +26,7 @@ import MFRC522
 import signal
 
 import rospy
-from std_msgs import Int16MultiArray
+from std_msgs.msg import Int16MultiArray
 
 continue_reading = True
 
