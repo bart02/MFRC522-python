@@ -84,7 +84,9 @@ while continue_reading:
         if status == MIFAREReader.MI_OK:
             num = MIFAREReader.MFRC522_Read(61)
             print num
-            pub.publish(num)
+            to_send = Int16MultiArray()
+            to_send.data = num
+            pub.publish(to_send)
             MIFAREReader.MFRC522_StopCrypto1()
         else:
             print "Authentication error"
