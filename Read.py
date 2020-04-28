@@ -25,6 +25,9 @@ import RPi.GPIO as GPIO
 import MFRC522
 import signal
 
+import rospy
+from std_msgs import Int16MultiArray
+
 continue_reading = True
 
 # Capture SIGINT for cleanup when the script is aborted
@@ -43,6 +46,11 @@ MIFAREReader = MFRC522.MFRC522()
 # Welcome message
 print "Welcome to the MFRC522 data read example"
 print "Press Ctrl-C to stop."
+
+
+rospy.init_node('card_reader')
+pub = rospy.Publisher('/card_num', Int16MultiArray)
+
 
 # This loop keeps checking for chips. If one is near it will get the UID and authenticate
 while continue_reading:
@@ -76,6 +84,7 @@ while continue_reading:
         if status == MIFAREReader.MI_OK:
             num = MIFAREReader.MFRC522_Read(61)
             print num
+            pub.publish(num)
             MIFAREReader.MFRC522_StopCrypto1()
         else:
             print "Authentication error"
